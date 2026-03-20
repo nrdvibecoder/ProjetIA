@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TransBot — Intents</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#04080f;--s:#0d1525;--s2:#111e33;--a:#0ea5e9;--a2:#f97316;--g:#10b981;--p:#8b5cf6;--t:#e2eaff;--t2:#7889a8;--t3:#3d4f6e;--b:rgba(14,165,233,0.12);--b2:rgba(14,165,233,0.25)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+.bg-grid{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(14,165,233,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,0.03) 1px,transparent 1px);background-size:48px 48px;animation:gd 30s linear infinite;pointer-events:none}
+@keyframes gd{to{background-position:48px 48px}}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;background:rgba(4,8,15,0.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--b)}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--t);text-decoration:none}.logo span{color:var(--a)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{font-size:12px;color:var(--t2);text-decoration:none;font-family:'JetBrains Mono',monospace;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--a)}
+.badge{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--g);border:1px solid rgba(16,185,129,0.3);padding:4px 12px;border-radius:20px;display:flex;align-items:center;gap:6px}
+.badge::before{content:'';width:6px;height:6px;background:var(--g);border-radius:50%;animation:pl 2s ease-in-out infinite}
+@keyframes pl{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.page-header{position:relative;z-index:1;padding:120px 48px 80px;max-width:1200px;margin:0 auto}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--a2);letter-spacing:3px;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px;opacity:0;animation:fu .8s ease .2s forwards}
+.eyebrow::after{content:'';flex:0 0 40px;height:1px;background:var(--a2);opacity:.4}
+.page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,7vw,80px);line-height:1;letter-spacing:.5px;margin-bottom:16px;opacity:0;animation:fu .8s ease .4s forwards}
+.page-title span{color:var(--a)}
+.page-desc{font-size:16px;color:var(--t2);max-width:560px;line-height:1.7;opacity:0;animation:fu .8s ease .6s forwards}
+.content{position:relative;z-index:1;padding:0 48px 100px;max-width:1200px;margin:0 auto}
+.back-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;background:var(--s);border:1px solid var(--b2);color:var(--t);transition:all .2s;margin-bottom:48px}
+.back-btn:hover{background:var(--s2);border-color:var(--a)}
+.group{margin-bottom:48px}
+.group-header{display:flex;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--b)}
+.group-icon{font-size:28px}
+.group-name{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.5px;color:var(--t)}
+.group-count{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--a);background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.2);padding:4px 10px;border-radius:20px;margin-left:auto}
+.intents-list{display:flex;flex-direction:column;gap:2px}
+.intent-row{background:var(--s);border:1px solid var(--b);padding:20px 24px;transition:all .25s;cursor:default;position:relative;overflow:hidden}
+.intent-row:first-child{border-radius:10px 10px 0 0}
+.intent-row:last-child{border-radius:0 0 10px 10px}
+.intent-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--a);opacity:0;transition:opacity .2s}
+.intent-row:hover{background:var(--s2);border-color:var(--b2)}
+.intent-row:hover::before{opacity:1}
+.intent-name{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:var(--a);margin-bottom:8px}
+.intent-phrases{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.phrase-chip{font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(14,165,233,.06);border:1px solid rgba(14,165,233,.15);color:var(--t2)}
+.intent-response{font-size:12px;color:var(--t2);line-height:1.6;border-left:2px solid var(--g);padding-left:12px;margin-top:8px;font-style:italic}
+.intent-meta{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.meta-tag{font-family:'JetBrains Mono',monospace;font-size:10px;padding:3px 8px;border-radius:4px}
+.rv{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.rv.vis{opacity:1;transform:translateY(0)}
+footer{position:relative;z-index:1;border-top:1px solid var(--b);padding:40px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+@media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}.page-header,.content{padding-left:20px;padding-right:20px}}
+
+body.light{--bg:#f8fafc;--s:#ffffff;--s2:#f1f5f9;--t:#0f172a;--t2:#475569;--t3:#94a3b8;--b:rgba(14,165,233,0.15);--b2:rgba(14,165,233,0.35)}
+body{transition:background .3s,color .3s}
+.bg-grid-light{background-image:linear-gradient(rgba(14,165,233,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,0.07) 1px,transparent 1px)}
+body.light nav{background:rgba(248,250,252,0.92)!important;border-bottom:1px solid rgba(14,165,233,0.2)!important}
+.nav-right{display:flex;align-items:center;gap:12px}
+.theme-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--b2);background:var(--s2);color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.theme-btn:hover{background:var(--a);color:#fff;border-color:var(--a)}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<nav>
+  <a href="index.html" class="logo">Trans<span>Bot</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="etapes.html">Creation</a></li>
+    <li><a href="intents.html" class="active">Intents</a></li>
+    <li><a href="captures.html">Captures</a></li>
+    <li><a href="chatbot.html">Chatbot</a></li>
+    <li><a href="apropos.html">A propos</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-btn" id="themeBtn" title="Mode clair / sombre">
+      <svg id="iconSun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg id="iconMoon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <div class="badge">Online</div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="eyebrow">Architecture du chatbot</div>
+  <h1 class="page-title">Les <span>56 intentions</span><br>du chatbot</h1>
+  <p class="page-desc">Chaque intent couvre un sujet precis avec des phrases d'entrainement uniques et deux reponses distinctes.</p>
+</div>
+
+<div class="content">
+  <a href="index.html" class="back-btn rv">← Retour a l'accueil</a>
+
+  <!-- GROUPE 1 -->
+  <div class="group rv">
+    <div class="group-header">
+      <div class="group-icon">👋</div>
+      <div class="group-name">Groupe 1 — Introduction</div>
+      <div class="group-count">4 intents</div>
+    </div>
+    <div class="intents-list">
+      <div class="intent-row">
+        <div class="intent-name">Salutation</div>
+        <div class="intent-phrases">
+          <span class="phrase-chip">Bonjour</span><span class="phrase-chip">Salut</span><span class="phrase-chip">Hey</span><span class="phrase-chip">Coucou</span><span class="phrase-chip">Hello</span><span class="phrase-chip">Bonjour chatbot</span><span class="phrase-chip">Bjr</span><span class="phrase-chip">Hi</span>
+        </div>
+        <div class="intent-response">Bonjour. Je suis TransBot, votre assistant virtuel specialise dans l'IA appliquee au transport. Comment puis-je vous aider ?</div>
+        <div class="intent-meta">
+          <span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">15 phrases</span>
+          <span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">2 reponses</span>
+          <span class="meta-tag" style="background:rgba(249,115,22,.08);color:var(--a2);border:1px solid rgba(249,115,22,.2)">4 chips</span>
+        </div>
+      </div>
+      <div class="intent-row">
+        <div class="intent-name">Definition_IA_Transport</div>
+        <div class="intent-phrases">
+          <span class="phrase-chip">Qu'est-ce que l'IA dans le transport</span><span class="phrase-chip">C'est quoi l'IA dans le transport</span><span class="phrase-chip">Qu'est-ce que le transport intelligent</span><span class="phrase-chip">Definition IA transport</span>
+        </div>
+        <div class="intent-response">L'intelligence artificielle dans le transport designe l'ensemble des technologies permettant aux systemes de percevoir leur environnement, analyser des donnees et prendre des decisions autonomes...</div>
+        <div class="intent-meta">
+          <span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">13 phrases</span>
+          <span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">2 reponses</span>
+          <span class="meta-tag" style="background:rgba(249,115,22,.08);color:var(--a2);border:1px solid rgba(249,115,22,.2)">3 chips</span>
+        </div>
+      </div>
+      <div class="intent-row">
+        <div class="intent-name">Applications_IA_Transport</div>
+        <div class="intent-phrases">
+          <span class="phrase-chip">Comment l'IA est utilisee dans les transports</span><span class="phrase-chip">Quelles sont les applications de l'IA</span><span class="phrase-chip">Applications</span><span class="phrase-chip">Exemples d'IA dans le transport</span>
+        </div>
+        <div class="intent-response">L'IA est appliquee dans la gestion du trafic, les vehicules autonomes, les transports en commun, la logistique, la securite routiere et le transport aerien et maritime...</div>
+        <div class="intent-meta">
+          <span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">12 phrases</span>
+          <span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">2 reponses</span>
+          <span class="meta-tag" style="background:rgba(249,115,22,.08);color:var(--a2);border:1px solid rgba(249,115,22,.2)">4 chips</span>
+        </div>
+      </div>
+      <div class="intent-row">
+        <div class="intent-name">Histoire_IA_Transport</div>
+        <div class="intent-phrases">
+          <span class="phrase-chip">Quand l'IA a commence dans le transport</span><span class="phrase-chip">Histoire de l'IA</span><span class="phrase-chip">Evolution IA transport</span><span class="phrase-chip">Depuis quand l'IA est dans le transport</span>
+        </div>
+        <div class="intent-response">L'IA dans le transport a debute dans les annees 1980 avec les premiers systemes automatises. Les annees 2000 ont marque l'essor des ADAS. Depuis 2010, les vehicules autonomes se developpent rapidement...</div>
+        <div class="intent-meta">
+          <span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">10 phrases</span>
+          <span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">2 reponses</span>
+          <span class="meta-tag" style="background:rgba(249,115,22,.08);color:var(--a2);border:1px solid rgba(249,115,22,.2)">2 chips</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GROUPE 2 -->
+  <div class="group rv">
+    <div class="group-header">
+      <div class="group-icon">🚘</div>
+      <div class="group-name">Groupe 2 — Vehicules autonomes</div>
+      <div class="group-count">7 intents</div>
+    </div>
+    <div class="intents-list">
+      <div class="intent-row"><div class="intent-name">Definition_Vehicule_Autonome</div><div class="intent-phrases"><span class="phrase-chip">Qu'est-ce qu'un vehicule autonome</span><span class="phrase-chip">Voiture sans conducteur</span><span class="phrase-chip">Vehicules autonomes</span><span class="phrase-chip">Self-driving car</span></div><div class="intent-response">Un vehicule autonome est un systeme capable de se deplacer sans intervention humaine grace aux capteurs LiDAR, cameras, radars et algorithmes d'IA...</div><div class="intent-meta"><span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">13 phrases</span><span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">2 reponses</span><span class="meta-tag" style="background:rgba(249,115,22,.08);color:var(--a2);border:1px solid rgba(249,115,22,.2)">3 chips</span></div></div>
+      <div class="intent-row"><div class="intent-name">Fonctionnement_Vehicule_Autonome</div><div class="intent-phrases"><span class="phrase-chip">Comment fonctionne une voiture autonome</span><span class="phrase-chip">Comment une voiture autonome voit la route</span><span class="phrase-chip">Fonctionnement</span><span class="phrase-chip">Capteurs voiture autonome</span></div><div class="intent-response">Fonctionne en trois etapes : Perception (LiDAR, cameras, radars), Decision (algorithmes IA) et Action (actionneurs). Ce cycle se repete des centaines de fois par seconde...</div><div class="intent-meta"><span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">13 phrases</span><span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">2 reponses</span></div></div>
+      <div class="intent-row"><div class="intent-name">LiDAR</div><div class="intent-phrases"><span class="phrase-chip">Le LiDAR c'est quoi</span><span class="phrase-chip">Comment fonctionne le LiDAR</span><span class="phrase-chip">Le LiDAR</span><span class="phrase-chip">LiDAR definition</span></div><div class="intent-response">Le LiDAR (Light Detection and Ranging) envoie des impulsions laser pour creer une cartographie 3D complete de l'environnement a 360 degres avec une precision centimetrique...</div><div class="intent-meta"><span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">13 phrases</span><span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">2 reponses</span></div></div>
+      <div class="intent-row"><div class="intent-name">Niveaux_Autonomie</div><div class="intent-phrases"><span class="phrase-chip">Quels sont les niveaux d'autonomie</span><span class="phrase-chip">Niveau 5 d'autonomie</span><span class="phrase-chip">Niveaux d'autonomie</span><span class="phrase-chip">Norme SAE</span></div><div class="intent-response">La norme SAE definit 6 niveaux : 0 (manuel) a 5 (autonomie totale). Tesla est au niveau 2-3. Waymo opere au niveau 4 a San Francisco...</div><div class="intent-meta"><span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">17 phrases</span><span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">2 reponses</span></div></div>
+      <div class="intent-row"><div class="intent-name">Fabricants_Vehicules_Autonomes</div><div class="intent-phrases"><span class="phrase-chip">Qui fabrique des voitures autonomes</span><span class="phrase-chip">Fabricants</span><span class="phrase-chip">Qui les fabrique</span><span class="phrase-chip">Waymo c'est quoi</span></div><div class="intent-response">Tesla (Full Self-Driving), Waymo (robotaxis niveau 4), General Motors (Cruise), Baidu (Apollo Go) et Mercedes-Benz (Drive Pilot) sont les leaders mondiaux...</div><div class="intent-meta"><span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">15 phrases</span><span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">2 reponses</span></div></div>
+      <div class="intent-row"><div class="intent-name">Fiabilite_Vehicules_Autonomes</div><div class="intent-phrases"><span class="phrase-chip">Les vehicules autonomes sont-ils fiables</span><span class="phrase-chip">Voitures autonomes sures</span><span class="phrase-chip">Sont-ils fiables</span><span class="phrase-chip">Accidents voitures autonomes</span></div><div class="intent-response">Statistiquement plus fiables que les conducteurs humains en conditions normales. Waymo parcourt des millions de km avec un taux d'accidents inferieur. Limites dans les conditions extremes...</div><div class="intent-meta"><span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">11 phrases</span><span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">2 reponses</span></div></div>
+      <div class="intent-row"><div class="intent-name">Disponibilite_Vehicules_Autonomes</div><div class="intent-phrases"><span class="phrase-chip">Quand les voitures autonomes seront disponibles</span><span class="phrase-chip">Disponibilite</span><span class="phrase-chip">Les robotaxis existent-ils</span><span class="phrase-chip">Ou peut-on utiliser des voitures autonomes</span></div><div class="intent-response">Waymo opere des robotaxis sans conducteur a San Francisco depuis 2022. Baidu en Chine. Vehicules grand public niveau 3-4 attendus entre 2025 et 2030...</div><div class="intent-meta"><span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">13 phrases</span><span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">2 reponses</span></div></div>
+    </div>
+  </div>
+
+  <!-- GROUPES RESTANTS EN RESUME -->
+  <div class="group rv">
+    <div class="group-header"><div class="group-icon">🚦</div><div class="group-name">Groupe 3 — Gestion du trafic</div><div class="group-count">5 intents</div></div>
+    <div class="intents-list">
+      <div class="intent-row"><div class="intent-name">Gestion_Trafic_General · Feux_Intelligents · Reduction_Embouteillages · Villes_Intelligentes_Trafic · Navigation_Intelligente</div><div class="intent-response">Couvre : systemes de trafic intelligent, feux adaptatifs, prediction des embouteillages, villes pionnières (Singapour, Barcelone) et navigation intelligente (Google Maps, Waze).</div><div class="intent-meta"><span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">60+ phrases</span><span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">10 reponses</span></div></div>
+    </div>
+  </div>
+
+  <div class="group rv">
+    <div class="group-header"><div class="group-icon">🛡️</div><div class="group-name">Groupe 4 — Securite routiere</div><div class="group-count">5 intents</div></div>
+    <div class="intents-list">
+      <div class="intent-row"><div class="intent-name">ADAS_General · Freinage_Urgence · Detection_Fatigue · Detection_Pietons · Impact_Accidents</div><div class="intent-response">Couvre : definition ADAS, freinage d'urgence automatique (AEB), detection de fatigue et somnolence, detection de pietons, impact chiffre sur la reduction des accidents.</div><div class="intent-meta"><span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">65+ phrases</span><span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">10 reponses</span></div></div>
+    </div>
+  </div>
+
+  <div class="group rv">
+    <div class="group-header"><div class="group-icon">🚌</div><div class="group-name">Groupe 5 — Transports en commun</div><div class="group-count">4 intents</div></div>
+    <div class="intents-list">
+      <div class="intent-row"><div class="intent-name">Transports_Commun_General · Optimisation_Horaires · Maintenance_Predictive_Transports · Metros_Autonomes</div><div class="intent-response">Couvre : amelioration des transports publics, optimisation des horaires, maintenance predictive pour eviter les pannes, metros autonomes (Paris ligne 1, Dubai).</div><div class="intent-meta"><span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">48+ phrases</span><span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">8 reponses</span></div></div>
+    </div>
+  </div>
+
+  <div class="group rv">
+    <div class="group-header"><div class="group-icon">📦</div><div class="group-name">Groupe 6 — Logistique et fret</div><div class="group-count">5 intents</div></div>
+    <div class="intents-list">
+      <div class="intent-row"><div class="intent-name">Logistique_General · Entrepots_Automatises · Camions_Autonomes · Drones_Livraison · Optimisation_Stocks</div><div class="intent-response">Couvre : optimisation logistique, entrepots Amazon et Alibaba automatises, camions autonomes Tesla Semi, drones livraison Amazon Prime Air et Wing, gestion predictive des stocks.</div><div class="intent-meta"><span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">60+ phrases</span><span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">10 reponses</span></div></div>
+    </div>
+  </div>
+
+  <div class="group rv">
+    <div class="group-header"><div class="group-icon">✈️</div><div class="group-name">Groupe 7 — Aviation et maritime</div><div class="group-count">4 intents</div></div>
+    <div class="intents-list">
+      <div class="intent-row"><div class="intent-name">Aviation_General · Assistance_Pilotes · Routes_Aeriennes · Navires_Autonomes</div><div class="intent-response">Couvre : IA dans l'aviation (Airbus, Boeing), assistance aux pilotes, optimisation routes aeriennes OPTIFLIGHT, navires autonomes (Yara Birkeland), ports intelligents (Rotterdam).</div><div class="intent-meta"><span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">48+ phrases</span><span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">8 reponses</span></div></div>
+    </div>
+  </div>
+
+  <div class="group rv">
+    <div class="group-header"><div class="group-icon">🚄</div><div class="group-name">Groupe 8 — Transport ferroviaire</div><div class="group-count">4 intents</div></div>
+    <div class="intents-list">
+      <div class="intent-row"><div class="intent-name">Ferroviaire_General · Trains_Autonomes · Maintenance_Trains · Energie_Ferroviaire</div><div class="intent-response">Couvre : IA dans le ferroviaire, trains autonomes (Paris ligne 1, Dubai), maintenance predictive (SNCF), optimisation energetique et recuperation d'energie au freinage.</div><div class="intent-meta"><span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">48+ phrases</span><span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">8 reponses</span></div></div>
+    </div>
+  </div>
+
+  <div class="group rv">
+    <div class="group-header"><div class="group-icon">🌱</div><div class="group-name">Groupe 9 — Environnement</div><div class="group-count">3 intents</div></div>
+    <div class="intents-list">
+      <div class="intent-row"><div class="intent-name">IA_Environnement_General · Vehicules_Electriques_IA · Impact_CO2_Chiffres</div><div class="intent-response">Couvre : impact environnemental de l'IA dans le transport, vehicules electriques, recharge intelligente, chiffres concrets de reduction CO2 par domaine.</div><div class="intent-meta"><span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">36+ phrases</span><span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">6 reponses</span></div></div>
+    </div>
+  </div>
+
+  <div class="group rv">
+    <div class="group-header"><div class="group-icon">🚀</div><div class="group-name">Groupe 10 — Avenir du transport</div><div class="group-count">5 intents</div></div>
+    <div class="intents-list">
+      <div class="intent-row"><div class="intent-name">Hyperloop · Taxis_Volants · Smart_City_Transport · Mobilite_Partagee · Avenir_Transport_General</div><div class="intent-response">Couvre : Hyperloop (Virgin, Hyperloop TT), taxis volants eVTOL (Volocopter, Joby Aviation), smart cities (Singapour), mobilite partagee (Uber, Lyft), avenir 2030-2050.</div><div class="intent-meta"><span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">65+ phrases</span><span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">10 reponses</span></div></div>
+    </div>
+  </div>
+
+  <div class="group rv">
+    <div class="group-header"><div class="group-icon">⚖️</div><div class="group-name">Groupe 11 — Ethique et reglementation</div><div class="group-count">4 intents</div></div>
+    <div class="intents-list">
+      <div class="intent-row"><div class="intent-name">Ethique_IA_Transport · Reglementation_IA · Responsabilite_Accidents · Cybersecurite_Transport</div><div class="intent-response">Couvre : dilemmes ethiques des vehicules autonomes, AI Act europeen, responsabilite en cas d'accident, cybersecurite des vehicules connectes.</div><div class="intent-meta"><span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">48+ phrases</span><span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">8 reponses</span></div></div>
+    </div>
+  </div>
+
+  <div class="group rv">
+    <div class="group-header"><div class="group-icon">⚠️</div><div class="group-name">Groupe 12 — Risques et limites</div><div class="group-count">2 intents</div></div>
+    <div class="intents-list">
+      <div class="intent-row"><div class="intent-name">Risques_IA · Limites_IA</div><div class="intent-response">Couvre : risques de l'IA dans le transport (pannes, cyberattaques, biais), limites technologiques actuelles (generalisation, meteo extreme, interactions complexes).</div><div class="intent-meta"><span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">24+ phrases</span><span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">4 reponses</span></div></div>
+    </div>
+  </div>
+
+  <div class="group rv">
+    <div class="group-header"><div class="group-icon">👥</div><div class="group-name">Groupe 13 — Impact social</div><div class="group-count">3 intents</div></div>
+    <div class="intents-list">
+      <div class="intent-row"><div class="intent-name">Emplois_IA · Accessibilite_Transport · Cout_Transport_IA</div><div class="intent-response">Couvre : impact sur l'emploi et reconversion, accessibilite pour personnes handicapees, retour sur investissement et reduction des couts du transport.</div><div class="intent-meta"><span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">36+ phrases</span><span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">6 reponses</span></div></div>
+    </div>
+  </div>
+
+  <div class="group rv">
+    <div class="group-header"><div class="group-icon">🏁</div><div class="group-name">Groupe 14 — Au revoir et Fallback</div><div class="group-count">2 intents</div></div>
+    <div class="intents-list">
+      <div class="intent-row"><div class="intent-name">Au_Revoir · Default Fallback Intent</div><div class="intent-response">Au_Revoir repond aux messages de fin de conversation. Le Fallback gere toutes les questions non reconnues et guide l'utilisateur vers les sujets disponibles via des suggestion chips.</div><div class="intent-meta"><span class="meta-tag" style="background:rgba(14,165,233,.08);color:var(--a);border:1px solid rgba(14,165,233,.2)">25+ phrases</span><span class="meta-tag" style="background:rgba(16,185,129,.08);color:var(--g);border:1px solid rgba(16,185,129,.2)">4 reponses</span></div></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px">Trans<span style="color:var(--a)">Bot</span></div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);text-align:right;line-height:1.9">L1 Informatique · Dr. S. Amarouche · 56 intents</div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(() => e.target.classList.add('vis'), i*60); });
+}, {threshold: 0.05});
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+const _btn = document.getElementById('themeBtn');
+const _sun = document.getElementById('iconSun');
+const _moon = document.getElementById('iconMoon');
+if(_btn) {
+  const _saved = localStorage.getItem('transbot-theme');
+  if(_saved === 'light') {
+    document.body.classList.add('light');
+    if(_sun) _sun.style.display = 'none';
+    if(_moon) _moon.style.display = 'block';
+  }
+  _btn.addEventListener('click', () => {
+    document.body.classList.toggle('light');
+    const isLight = document.body.classList.contains('light');
+    if(_sun) _sun.style.display = isLight ? 'none' : 'block';
+    if(_moon) _moon.style.display = isLight ? 'block' : 'none';
+    localStorage.setItem('transbot-theme', isLight ? 'light' : 'dark');
+  });
+}
+</script>
+</body>
+</html>

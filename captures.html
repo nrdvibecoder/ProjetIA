@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TransBot — Captures</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#04080f;--s:#0d1525;--s2:#111e33;--a:#0ea5e9;--a2:#f97316;--g:#10b981;--p:#8b5cf6;--t:#e2eaff;--t2:#7889a8;--t3:#3d4f6e;--b:rgba(14,165,233,0.12);--b2:rgba(14,165,233,0.25)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+.bg-grid{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(14,165,233,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,0.03) 1px,transparent 1px);background-size:48px 48px;animation:gd 30s linear infinite;pointer-events:none}
+@keyframes gd{to{background-position:48px 48px}}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;background:rgba(4,8,15,0.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--b)}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--t);text-decoration:none}.logo span{color:var(--a)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{font-size:12px;color:var(--t2);text-decoration:none;font-family:'JetBrains Mono',monospace;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--a)}
+.badge{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--g);border:1px solid rgba(16,185,129,0.3);padding:4px 12px;border-radius:20px;display:flex;align-items:center;gap:6px}
+.badge::before{content:'';width:6px;height:6px;background:var(--g);border-radius:50%;animation:pl 2s ease-in-out infinite}
+@keyframes pl{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.page-header{position:relative;z-index:1;padding:120px 48px 80px;max-width:1200px;margin:0 auto}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--a2);letter-spacing:3px;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px;opacity:0;animation:fu .8s ease .2s forwards}
+.eyebrow::after{content:'';flex:0 0 40px;height:1px;background:var(--a2);opacity:.4}
+.page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,7vw,80px);line-height:1;letter-spacing:.5px;margin-bottom:16px;opacity:0;animation:fu .8s ease .4s forwards}
+.page-title span{color:var(--a)}
+.page-desc{font-size:16px;color:var(--t2);max-width:560px;line-height:1.7;opacity:0;animation:fu .8s ease .6s forwards}
+
+/* INSTRUCTION BOX */
+.instruction{background:rgba(14,165,233,.06);border:1px solid rgba(14,165,233,.2);border-radius:12px;padding:20px 24px;margin-bottom:48px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--t2);line-height:1.8}
+.instruction strong{color:var(--a);display:block;margin-bottom:8px;font-size:13px}
+
+.content{position:relative;z-index:1;padding:0 48px 100px;max-width:1200px;margin:0 auto}
+.back-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;background:var(--s);border:1px solid var(--b2);color:var(--t);transition:all .2s;margin-bottom:48px}
+.back-btn:hover{background:var(--s2);border-color:var(--a)}
+
+.captures-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(520px,1fr));gap:32px}
+.capture-block{background:var(--s);border:1px solid var(--b);border-radius:16px;overflow:hidden;transition:border-color .3s}
+.capture-block:hover{border-color:var(--b2)}
+.capture-header{background:var(--s2);border-bottom:1px solid var(--b);padding:16px 20px;display:flex;align-items:center;gap:12px}
+.capture-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--a2);background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2);padding:3px 10px;border-radius:20px}
+.capture-title{font-size:15px;font-weight:700;color:var(--t)}
+
+/* IMAGE ZONE - Tu remplaceras le placeholder par une vraie img */
+.capture-img-zone{
+  width:100%;
+  min-height:280px;
+  background:var(--s2);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  border-bottom:1px solid var(--b);
+  position:relative;
+  overflow:hidden;
+}
+/* REMPLACE LE PLACEHOLDER PAR CECI DANS VSCODE :
+   <img src="images/capture01.png" alt="..." style="width:100%;height:auto;display:block;">
+*/
+.capture-img-zone img{
+  width:100%;
+  height:auto;
+  display:block;
+}
+.placeholder-icon{font-size:48px;opacity:.3}
+.placeholder-text{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t3);text-align:center;line-height:1.8}
+.placeholder-filename{font-size:13px;color:var(--a);opacity:.6}
+
+.capture-desc-zone{padding:20px 24px}
+.desc-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.desc-text{font-size:13px;color:var(--t2);line-height:1.7}
+
+.rv{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
+.rv.vis{opacity:1;transform:translateY(0)}
+footer{position:relative;z-index:1;border-top:1px solid var(--b);padding:40px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+@media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}.page-header,.content{padding-left:20px;padding-right:20px}.captures-grid{grid-template-columns:1fr}}
+
+body.light{--bg:#f8fafc;--s:#ffffff;--s2:#f1f5f9;--t:#0f172a;--t2:#475569;--t3:#94a3b8;--b:rgba(14,165,233,0.15);--b2:rgba(14,165,233,0.35)}
+body{transition:background .3s,color .3s}
+.bg-grid-light{background-image:linear-gradient(rgba(14,165,233,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,0.07) 1px,transparent 1px)}
+body.light nav{background:rgba(248,250,252,0.92)!important;border-bottom:1px solid rgba(14,165,233,0.2)!important}
+.nav-right{display:flex;align-items:center;gap:12px}
+.theme-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--b2);background:var(--s2);color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.theme-btn:hover{background:var(--a);color:#fff;border-color:var(--a)}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<nav>
+  <a href="index.html" class="logo">Trans<span>Bot</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="etapes.html">Creation</a></li>
+    <li><a href="intents.html">Intents</a></li>
+    <li><a href="captures.html" class="active">Captures</a></li>
+    <li><a href="chatbot.html">Chatbot</a></li>
+    <li><a href="apropos.html">A propos</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-btn" id="themeBtn" title="Mode clair / sombre">
+      <svg id="iconSun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg id="iconMoon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <div class="badge">Online</div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="eyebrow">Demonstration visuelle</div>
+  <h1 class="page-title">Captures<br><span>d'ecran</span></h1>
+  <p class="page-desc">Les captures du chatbot en action dans Dialogflow et sur le web, avec descriptions pour le rapport.</p>
+</div>
+
+<div class="content">
+  <a href="index.html" class="back-btn rv">← Retour a l'accueil</a>
+
+  <!--
+  ==================================================
+  INSTRUCTIONS POUR AJOUTER TES CAPTURES DANS VSCODE
+  ==================================================
+  1. Cree un dossier "images" dans le meme dossier que ce fichier
+  2. Mets tes captures dedans : capture01.png, capture02.png, etc.
+  3. Dans chaque .capture-img-zone ci-dessous :
+     - Supprime tout le contenu entre les balises
+     - Ajoute : <img src="images/capture01.png" alt="Description" style="width:100%;height:auto;display:block;">
+  ==================================================
+  -->
+
+  <div class="captures-grid">
+
+    <!-- CAPTURE 01 -->
+    <div class="capture-block rv">
+      <div class="capture-header">
+        <span class="capture-num">CAPTURE 01</span>
+        <span class="capture-title">Creation de l'agent Dialogflow</span>
+      </div>
+      <div class="capture-img-zone">
+        <!-- REMPLACE CE BLOC PAR :
+        <img src="images/capture01.png" alt="Agent Dialogflow" style="width:100%;height:auto;display:block;">
+        -->
+        <div class="placeholder-icon">📸</div>
+        <div class="placeholder-text">Ajoute ta capture ici dans VSCode<br><span class="placeholder-filename">images/capture01.png</span></div>
+      </div>
+      <div class="capture-desc-zone">
+        <div class="desc-label">Description</div>
+        <div class="desc-text">Creation de l'agent TransBot sur Dialogflow. L'agent est configure en langue francaise avec le fuseau horaire Africa/Algiers. Il constitue le cerveau du chatbot et gere l'ensemble des interactions utilisateur.</div>
+      </div>
+    </div>
+
+    <!-- CAPTURE 02 -->
+    <div class="capture-block rv">
+      <div class="capture-header">
+        <span class="capture-num">CAPTURE 02</span>
+        <span class="capture-title">Liste complete des 56 intents</span>
+      </div>
+      <div class="capture-img-zone">
+        <!-- REMPLACE CE BLOC PAR :
+        <img src="images/capture02.png" alt="Liste intents" style="width:100%;height:auto;display:block;">
+        -->
+        <div class="placeholder-icon">📸</div>
+        <div class="placeholder-text">Ajoute ta capture ici dans VSCode<br><span class="placeholder-filename">images/capture02.png</span></div>
+      </div>
+      <div class="capture-desc-zone">
+        <div class="desc-label">Description</div>
+        <div class="desc-text">Vue complete de tous les intents crees dans l'agent. Chaque intent represente un sujet distinct lie a l'IA dans le transport, organises en 14 groupes thematiques.</div>
+      </div>
+    </div>
+
+    <!-- CAPTURE 03 -->
+    <div class="capture-block rv">
+      <div class="capture-header">
+        <span class="capture-num">CAPTURE 03</span>
+        <span class="capture-title">Detail d'un intent — phrases et reponses</span>
+      </div>
+      <div class="capture-img-zone">
+        <!-- REMPLACE CE BLOC PAR :
+        <img src="images/capture03.png" alt="Intent detail" style="width:100%;height:auto;display:block;">
+        -->
+        <div class="placeholder-icon">📸</div>
+        <div class="placeholder-text">Ajoute ta capture ici dans VSCode<br><span class="placeholder-filename">images/capture03.png</span></div>
+      </div>
+      <div class="capture-desc-zone">
+        <div class="desc-label">Description</div>
+        <div class="desc-text">Detail de l'intent Definition_Vehicule_Autonome montrant les phrases d'entrainement, les deux reponses alternatives et les suggestion chips. La liaison entre question et reponse est directe et precise.</div>
+      </div>
+    </div>
+
+    <!-- CAPTURE 04 -->
+    <div class="capture-block rv">
+      <div class="capture-header">
+        <span class="capture-num">CAPTURE 04</span>
+        <span class="capture-title">Simulateur — Salutation</span>
+      </div>
+      <div class="capture-img-zone">
+        <!-- REMPLACE CE BLOC PAR :
+        <img src="images/capture04.png" alt="Simulateur bonjour" style="width:100%;height:auto;display:block;">
+        -->
+        <div class="placeholder-icon">📸</div>
+        <div class="placeholder-text">Ajoute ta capture ici dans VSCode<br><span class="placeholder-filename">images/capture04.png</span></div>
+      </div>
+      <div class="capture-desc-zone">
+        <div class="desc-label">Description</div>
+        <div class="desc-text">Test dans le simulateur "Try it now". L'utilisateur tape "Bonjour" et le chatbot repond avec un message d'accueil professionnel et propose des suggestion chips pour orienter la conversation.</div>
+      </div>
+    </div>
+
+    <!-- CAPTURE 05 -->
+    <div class="capture-block rv">
+      <div class="capture-header">
+        <span class="capture-num">CAPTURE 05</span>
+        <span class="capture-title">Simulateur — Vehicule autonome</span>
+      </div>
+      <div class="capture-img-zone">
+        <!-- REMPLACE CE BLOC PAR :
+        <img src="images/capture05.png" alt="Simulateur vehicule autonome" style="width:100%;height:auto;display:block;">
+        -->
+        <div class="placeholder-icon">📸</div>
+        <div class="placeholder-text">Ajoute ta capture ici dans VSCode<br><span class="placeholder-filename">images/capture05.png</span></div>
+      </div>
+      <div class="capture-desc-zone">
+        <div class="desc-label">Description</div>
+        <div class="desc-text">Test de l'intent Fonctionnement_Vehicule_Autonome. Le chatbot identifie la question et fournit une reponse precise sur le fonctionnement des vehicules autonomes (LiDAR, cameras, radars, cycle perception-decision-action).</div>
+      </div>
+    </div>
+
+    <!-- CAPTURE 06 -->
+    <div class="capture-block rv">
+      <div class="capture-header">
+        <span class="capture-num">CAPTURE 06</span>
+        <span class="capture-title">Simulateur — Reduction embouteillages</span>
+      </div>
+      <div class="capture-img-zone">
+        <!-- REMPLACE CE BLOC PAR :
+        <img src="images/capture06.png" alt="Simulateur embouteillages" style="width:100%;height:auto;display:block;">
+        -->
+        <div class="placeholder-icon">📸</div>
+        <div class="placeholder-text">Ajoute ta capture ici dans VSCode<br><span class="placeholder-filename">images/capture06.png</span></div>
+      </div>
+      <div class="capture-desc-zone">
+        <div class="desc-label">Description</div>
+        <div class="desc-text">Test de l'intent Reduction_Embouteillages. Le chatbot reconnait la question et repond avec des donnees chiffrees concretes sur la reduction des embouteillages grace a l'IA (jusqu'a 25%).</div>
+      </div>
+    </div>
+
+    <!-- CAPTURE 07 -->
+    <div class="capture-block rv">
+      <div class="capture-header">
+        <span class="capture-num">CAPTURE 07</span>
+        <span class="capture-title">Simulateur — Securite ADAS</span>
+      </div>
+      <div class="capture-img-zone">
+        <!-- REMPLACE CE BLOC PAR :
+        <img src="images/capture07.png" alt="Simulateur ADAS" style="width:100%;height:auto;display:block;">
+        -->
+        <div class="placeholder-icon">📸</div>
+        <div class="placeholder-text">Ajoute ta capture ici dans VSCode<br><span class="placeholder-filename">images/capture07.png</span></div>
+      </div>
+      <div class="capture-desc-zone">
+        <div class="desc-label">Description</div>
+        <div class="desc-text">Test de l'intent ADAS_General. Le chatbot fournit une definition complete des systemes ADAS (Advanced Driver Assistance Systems) et liste leurs fonctionnalites de securite.</div>
+      </div>
+    </div>
+
+    <!-- CAPTURE 08 -->
+    <div class="capture-block rv">
+      <div class="capture-header">
+        <span class="capture-num">CAPTURE 08</span>
+        <span class="capture-title">Simulateur — Fallback Intent</span>
+      </div>
+      <div class="capture-img-zone">
+        <!-- REMPLACE CE BLOC PAR :
+        <img src="images/capture08.png" alt="Simulateur fallback" style="width:100%;height:auto;display:block;">
+        -->
+        <div class="placeholder-icon">📸</div>
+        <div class="placeholder-text">Ajoute ta capture ici dans VSCode<br><span class="placeholder-filename">images/capture08.png</span></div>
+      </div>
+      <div class="capture-desc-zone">
+        <div class="desc-label">Description</div>
+        <div class="desc-text">Test du Default Fallback Intent avec une question non reconnue. Le chatbot guide l'utilisateur vers les sujets disponibles via des suggestion chips, assurant une experience fluide meme pour les questions hors sujet.</div>
+      </div>
+    </div>
+
+    <!-- CAPTURE 09 -->
+    <div class="capture-block rv">
+      <div class="capture-header">
+        <span class="capture-num">CAPTURE 09</span>
+        <span class="capture-title">Entities personnalisees</span>
+      </div>
+      <div class="capture-img-zone">
+        <!-- REMPLACE CE BLOC PAR :
+        <img src="images/capture09.png" alt="Entities" style="width:100%;height:auto;display:block;">
+        -->
+        <div class="placeholder-icon">📸</div>
+        <div class="placeholder-text">Ajoute ta capture ici dans VSCode<br><span class="placeholder-filename">images/capture09.png</span></div>
+      </div>
+      <div class="capture-desc-zone">
+        <div class="desc-label">Description</div>
+        <div class="desc-text">Les trois entites personnalisees creees : @entreprise-transport (Tesla, Waymo, Amazon, Baidu), @domaine-transport et @niveau-autonomie. Ces entites ameliorent la precision de la reconnaissance des intentions.</div>
+      </div>
+    </div>
+
+    <!-- CAPTURE 10 -->
+    <div class="capture-block rv">
+      <div class="capture-header">
+        <span class="capture-num">CAPTURE 10</span>
+        <span class="capture-title">Web Demo active et site en ligne</span>
+      </div>
+      <div class="capture-img-zone">
+        <!-- REMPLACE CE BLOC PAR :
+        <img src="images/capture10.png" alt="Web Demo et site" style="width:100%;height:auto;display:block;">
+        -->
+        <div class="placeholder-icon">📸</div>
+        <div class="placeholder-text">Ajoute ta capture ici dans VSCode<br><span class="placeholder-filename">images/capture10.png</span></div>
+      </div>
+      <div class="capture-desc-zone">
+        <div class="desc-label">Description</div>
+        <div class="desc-text">Activation du Web Demo Dialogflow montrant le lien public du chatbot, et le site web deploye sur Netlify avec le chatbot integre via iframe, accessible publiquement depuis n'importe quel navigateur.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px">Trans<span style="color:var(--a)">Bot</span></div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);text-align:right;line-height:1.9">L1 Informatique · Dr. S. Amarouche · 10 captures</div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(() => e.target.classList.add('vis'), i*80); });
+}, {threshold: 0.08});
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+const _btn = document.getElementById('themeBtn');
+const _sun = document.getElementById('iconSun');
+const _moon = document.getElementById('iconMoon');
+if(_btn) {
+  const _saved = localStorage.getItem('transbot-theme');
+  if(_saved === 'light') {
+    document.body.classList.add('light');
+    if(_sun) _sun.style.display = 'none';
+    if(_moon) _moon.style.display = 'block';
+  }
+  _btn.addEventListener('click', () => {
+    document.body.classList.toggle('light');
+    const isLight = document.body.classList.contains('light');
+    if(_sun) _sun.style.display = isLight ? 'none' : 'block';
+    if(_moon) _moon.style.display = isLight ? 'block' : 'none';
+    localStorage.setItem('transbot-theme', isLight ? 'light' : 'dark');
+  });
+}
+</script>
+</body>
+</html>

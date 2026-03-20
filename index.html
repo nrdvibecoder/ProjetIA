@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TransBot — Accueil</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#04080f;--s:#0d1525;--s2:#111e33;--a:#0ea5e9;--a2:#f97316;--g:#10b981;--p:#8b5cf6;--t:#e2eaff;--t2:#7889a8;--t3:#3d4f6e;--b:rgba(14,165,233,0.12);--b2:rgba(14,165,233,0.25)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;overflow-x:hidden;transition:background .3s,color .3s}
+body.light{--bg:#f8fafc;--s:#ffffff;--s2:#f1f5f9;--t:#0f172a;--t2:#475569;--t3:#94a3b8;--b:rgba(14,165,233,0.15);--b2:rgba(14,165,233,0.35)}
+.bg-grid{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(14,165,233,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,0.03) 1px,transparent 1px);background-size:48px 48px;animation:gd 30s linear infinite;pointer-events:none}
+body.light .bg-grid{background-image:linear-gradient(rgba(14,165,233,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,0.07) 1px,transparent 1px)}
+@keyframes gd{to{background-position:48px 48px}}
+.orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0}
+.o1{width:500px;height:500px;background:rgba(14,165,233,0.07);top:-150px;right:-100px}
+.o2{width:350px;height:350px;background:rgba(249,115,22,0.05);bottom:100px;left:-80px}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;background:rgba(4,8,15,0.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--b);transition:background .3s}
+body.light nav{background:rgba(248,250,252,0.92);border-bottom:1px solid rgba(14,165,233,0.2)}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--t);text-decoration:none}
+.logo span{color:var(--a)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{font-size:12px;color:var(--t2);text-decoration:none;font-family:'JetBrains Mono',monospace;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--a)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.theme-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--b2);background:var(--s2);color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.theme-btn:hover{background:var(--a);color:#fff;border-color:var(--a)}
+.badge{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--g);border:1px solid rgba(16,185,129,0.3);padding:4px 12px;border-radius:20px;display:flex;align-items:center;gap:6px}
+.badge::before{content:'';width:6px;height:6px;background:var(--g);border-radius:50%;animation:pl 2s ease-in-out infinite}
+@keyframes pl{0%,100%{opacity:1}50%{opacity:.3}}
+#hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 48px 80px;text-align:center}
+.hero-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--a);letter-spacing:3px;text-transform:uppercase;border:1px solid var(--b2);padding:6px 16px;border-radius:20px;margin-bottom:32px;display:inline-block;opacity:0;animation:fu .8s ease .2s forwards}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,11vw,140px);line-height:.92;letter-spacing:1px;margin-bottom:12px;opacity:0;animation:fu .8s ease .4s forwards}
+.hero-title .out{-webkit-text-stroke:2px var(--a);-webkit-text-fill-color:transparent}
+.hero-sub{font-size:17px;color:var(--t2);max-width:520px;line-height:1.7;margin:28px auto 52px;opacity:0;animation:fu .8s ease .6s forwards}
+.hero-stats{display:flex;gap:56px;justify-content:center;opacity:0;animation:fu .8s ease .8s forwards;margin-bottom:60px}
+.stat-n{font-family:'Bebas Neue',sans-serif;font-size:44px;color:var(--a);line-height:1}
+.stat-l{font-size:11px;color:var(--t3);font-family:'JetBrains Mono',monospace;margin-top:4px;text-transform:uppercase;letter-spacing:1px}
+.hero-cta{display:flex;gap:16px;justify-content:center;opacity:0;animation:fu .8s ease 1s forwards}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:600;text-decoration:none;transition:all .25s}
+.btn-primary{background:var(--a);color:#fff}
+.btn-primary:hover{background:#0284c7;transform:translateY(-2px);box-shadow:0 12px 30px rgba(14,165,233,.3)}
+.btn-secondary{background:transparent;color:var(--t);border:1px solid var(--b2)}
+.btn-secondary:hover{background:var(--s2);border-color:var(--a);transform:translateY(-2px)}
+@keyframes fu{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.overview{position:relative;z-index:1;padding:0 48px 120px;max-width:1200px;margin:0 auto}
+.ov-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,5vw,52px);letter-spacing:.5px;margin-bottom:8px;text-align:center}
+.ov-title span{color:var(--a)}
+.ov-sub{font-size:15px;color:var(--t2);text-align:center;margin-bottom:60px}
+.ov-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.ov-card{background:var(--s);border:1px solid var(--b);border-radius:20px;overflow:hidden;transition:all .3s;text-decoration:none;display:block;position:relative}
+.ov-card:hover{border-color:var(--b2);transform:translateY(-4px);box-shadow:0 24px 60px rgba(0,0,0,.2)}
+.ov-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:0;transition:opacity .3s}
+.ov-card:nth-child(1)::before{background:linear-gradient(90deg,var(--a),var(--p))}
+.ov-card:nth-child(2)::before{background:linear-gradient(90deg,var(--a2),var(--a))}
+.ov-card:nth-child(3)::before{background:linear-gradient(90deg,var(--p),var(--a2))}
+.ov-card:nth-child(4)::before{background:linear-gradient(90deg,var(--g),var(--a))}
+.ov-card:nth-child(5)::before{background:linear-gradient(90deg,var(--a),var(--g))}
+.ov-card:hover::before{opacity:1}
+.ov-preview{background:var(--s2);border-bottom:1px solid var(--b);padding:28px;min-height:200px;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
+.prev-num{font-family:'Bebas Neue',sans-serif;font-size:64px;color:var(--b2);position:absolute;right:20px;bottom:10px;line-height:1}
+.prev-step{background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.2);border-radius:8px;padding:10px 14px}
+.prev-step-n{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--a);margin-bottom:3px}
+.prev-step-t{font-size:12px;font-weight:600;color:var(--t)}
+.prev-intent{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:8px;padding:8px 12px;font-size:11px;color:var(--t2)}
+.prev-intent span{color:var(--g);font-weight:600}
+.prev-img-placeholder{width:100%;height:80px;background:rgba(139,92,246,.05);border:1px dashed rgba(139,92,246,.3);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--p)}
+.prev-chat-msg{padding:8px 12px;border-radius:10px;font-size:11px;color:var(--t);max-width:85%}
+.prev-user{background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.25);border-radius:10px 10px 2px 10px;align-self:flex-end}
+.prev-bot{background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.2);border-radius:10px 10px 10px 2px}
+.prev-member{display:flex;align-items:center;gap:10px;padding:8px 12px;background:rgba(14,165,233,.06);border:1px solid rgba(14,165,233,.15);border-radius:8px}
+.prev-avatar{width:32px;height:32px;border-radius:8px;background:rgba(14,165,233,.2);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:12px;color:var(--a);flex-shrink:0}
+.prev-mname{font-size:12px;font-weight:600;color:var(--t)}
+.prev-mrole{font-size:10px;color:var(--t3);font-family:'JetBrains Mono',monospace}
+.ov-info{padding:24px 28px}
+.ov-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--a2);margin-bottom:8px;letter-spacing:1px}
+.ov-name{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.5px;color:var(--t);margin-bottom:8px}
+.ov-desc{font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:20px}
+.ov-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;background:var(--s2);border:1px solid var(--b2);color:var(--t);transition:all .2s}
+.ov-btn:hover{background:var(--a);border-color:var(--a);color:#fff}
+.div{position:relative;z-index:1;height:1px;background:linear-gradient(90deg,transparent,var(--b2),transparent);margin:0 48px}
+.rv{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
+.rv.vis{opacity:1;transform:translateY(0)}
+footer{position:relative;z-index:1;border-top:1px solid var(--b);padding:48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+@media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}#hero{padding:100px 20px 60px}.hero-stats{gap:24px}.overview{padding:0 20px 80px}.ov-grid{grid-template-columns:1fr}footer{padding:28px 20px;flex-direction:column}}
+body{transition:background .3s,color .3s}
+.nav-right{display:flex;align-items:center;gap:12px}
+.theme-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--b2);background:var(--s2);color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;outline:none}
+.theme-btn:hover{background:var(--a);color:#fff;border-color:var(--a)}
+body.light nav{background:rgba(248,250,252,0.92)!important;border-bottom-color:rgba(14,165,233,0.2)!important}
+body.light .bg-grid{background-image:linear-gradient(rgba(14,165,233,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,0.07) 1px,transparent 1px)!important}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+
+<nav>
+  <a href="index.html" class="logo">Trans<span>Bot</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Accueil</a></li>
+    <li><a href="etapes.html">Creation</a></li>
+    <li><a href="intents.html">Intents</a></li>
+    <li><a href="captures.html">Captures</a></li>
+    <li><a href="chatbot.html">Chatbot</a></li>
+    <li><a href="apropos.html">A propos</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-btn" id="themeBtn" title="Mode clair / sombre">
+      <svg id="iconSun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg id="iconMoon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <div class="badge">Online</div>
+  </div>
+</nav>
+
+<div id="hero">
+  <div class="hero-tag">Introduction a l'Intelligence Artificielle — L1 Informatique</div>
+  <h1 class="hero-title">
+    <span style="color:var(--t)">Trans</span><br>
+    <span class="out">Bot</span>
+  </h1>
+  <p class="hero-sub">Un assistant virtuel intelligent specialise dans l'intelligence artificielle appliquee au domaine du transport. Developpe avec Dialogflow et deploye sur le web.</p>
+  <div class="hero-stats">
+    <div><div class="stat-n">56</div><div class="stat-l">Intents</div></div>
+    <div><div class="stat-n">112</div><div class="stat-l">Reponses</div></div>
+    <div><div class="stat-n">600+</div><div class="stat-l">Phrases</div></div>
+    <div><div class="stat-n">14</div><div class="stat-l">Groupes</div></div>
+  </div>
+  <div class="hero-cta">
+    <a href="chatbot.html" class="btn btn-primary">Essayer TransBot →</a>
+    <a href="etapes.html" class="btn btn-secondary">Voir la creation</a>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<div class="overview">
+  <h2 class="ov-title rv">Vue d'ensemble du <span>projet</span></h2>
+  <p class="ov-sub rv">Explorez chaque section du projet en detail</p>
+
+  <div class="ov-grid">
+    <a href="etapes.html" class="ov-card rv">
+      <div class="ov-preview">
+        <div class="prev-step"><div class="prev-step-n">ETAPE 01</div><div class="prev-step-t">Creation de l'agent Dialogflow</div></div>
+        <div class="prev-step"><div class="prev-step-n">ETAPE 02</div><div class="prev-step-t">Architecture des 56 intents</div></div>
+        <div class="prev-step"><div class="prev-step-n">ETAPE 03</div><div class="prev-step-t">600+ phrases d'entrainement</div></div>
+        <div class="prev-num">08</div>
+      </div>
+      <div class="ov-info">
+        <div class="ov-num">SECTION 01</div>
+        <div class="ov-name">Processus de creation</div>
+        <div class="ov-desc">Les 8 etapes suivies pour concevoir, configurer et deployer TransBot sur Dialogflow et le web.</div>
+        <span class="ov-btn">Voir les etapes →</span>
+      </div>
+    </a>
+
+    <a href="intents.html" class="ov-card rv">
+      <div class="ov-preview">
+        <div class="prev-intent"><span>Vehicules autonomes</span> — 7 intents</div>
+        <div class="prev-intent"><span>Gestion du trafic</span> — 5 intents</div>
+        <div class="prev-intent"><span>Securite routiere</span> — 5 intents</div>
+        <div class="prev-intent"><span>Logistique</span> — 5 intents</div>
+        <div class="prev-num">56</div>
+      </div>
+      <div class="ov-info">
+        <div class="ov-num">SECTION 02</div>
+        <div class="ov-name">Les 56 intentions</div>
+        <div class="ov-desc">Architecture complete des intents, groupes thematiques, phrases d'entrainement et reponses.</div>
+        <span class="ov-btn">Voir les intents →</span>
+      </div>
+    </a>
+
+    <a href="captures.html" class="ov-card rv">
+      <div class="ov-preview">
+        <div class="prev-img-placeholder">capture_01.png — Agent Dialogflow</div>
+        <div class="prev-img-placeholder">capture_02.png — Liste des intents</div>
+        <div class="prev-num">10</div>
+      </div>
+      <div class="ov-info">
+        <div class="ov-num">SECTION 03</div>
+        <div class="ov-name">Captures d'ecran</div>
+        <div class="ov-desc">Les captures du chatbot dans Dialogflow et en action, avec descriptions pour le rapport.</div>
+        <span class="ov-btn">Voir les captures →</span>
+      </div>
+    </a>
+
+    <a href="chatbot.html" class="ov-card rv">
+      <div class="ov-preview" style="justify-content:flex-end">
+        <div class="prev-chat-msg prev-user">Bonjour</div>
+        <div class="prev-chat-msg prev-bot">Bonjour. Je suis TransBot, votre assistant IA dedie a la mobilite intelligente...</div>
+        <div class="prev-chat-msg prev-user">Comment fonctionne une voiture autonome</div>
+        <div class="prev-chat-msg prev-bot">Un vehicule autonome fonctionne en trois etapes : Perception, Decision et Action...</div>
+        <div class="prev-num">IA</div>
+      </div>
+      <div class="ov-info">
+        <div class="ov-num">SECTION 04</div>
+        <div class="ov-name">Chatbot en direct</div>
+        <div class="ov-desc">Essayez directement TransBot. Posez vos questions sur l'IA dans le transport.</div>
+        <span class="ov-btn">Ouvrir le chatbot →</span>
+      </div>
+    </a>
+
+    <a href="apropos.html" class="ov-card rv" style="grid-column:1/-1">
+      <div class="ov-preview" style="min-height:140px;flex-direction:row;flex-wrap:wrap;gap:12px">
+        <div class="prev-member"><div class="prev-avatar">BN</div><div><div class="prev-mname">BENSADI Noureddine</div><div class="prev-mrole">Membre du groupe</div></div></div>
+        <div class="prev-member"><div class="prev-avatar">KA</div><div><div class="prev-mname">KHRIS Agnes</div><div class="prev-mrole">Membre du groupe</div></div></div>
+        <div class="prev-member"><div class="prev-avatar">AL</div><div><div class="prev-mname">ALIANE Lydia</div><div class="prev-mrole">Membre du groupe</div></div></div>
+        <div class="prev-member"><div class="prev-avatar">AF</div><div><div class="prev-mname">AMMAR-KHODJA Farouk</div><div class="prev-mrole">Membre du groupe</div></div></div>
+        <div class="prev-member"><div class="prev-avatar">BR</div><div><div class="prev-mname">BOUDALI Rayane</div><div class="prev-mrole">Membre du groupe</div></div></div>
+        <div class="prev-num">05</div>
+      </div>
+      <div class="ov-info">
+        <div class="ov-num">SECTION 05</div>
+        <div class="ov-name">A propos — L'equipe</div>
+        <div class="ov-desc">Presentation du groupe ayant realise ce projet dans le cadre du cours Introduction a l'Intelligence Artificielle.</div>
+        <span class="ov-btn">Voir l'equipe →</span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<footer>
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px">Trans<span style="color:var(--a)">Bot</span></div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);text-align:right;line-height:1.9">
+    Projet IA — Introduction a l'Intelligence Artificielle<br>
+    L1 Informatique · E16 · Dr. S. Amarouche
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(() => e.target.classList.add('vis'), i*80); });
+}, {threshold:0.08});
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+
+
+const _btn = document.getElementById('themeBtn');
+const _sun = document.getElementById('iconSun');
+const _moon = document.getElementById('iconMoon');
+if(_btn) {
+  const _saved = localStorage.getItem('transbot-theme');
+  if(_saved === 'light') {
+    document.body.classList.add('light');
+    if(_sun) _sun.style.display = 'none';
+    if(_moon) _moon.style.display = 'block';
+  }
+  _btn.addEventListener('click', () => {
+    document.body.classList.toggle('light');
+    const isLight = document.body.classList.contains('light');
+    if(_sun) _sun.style.display = isLight ? 'none' : 'block';
+    if(_moon) _moon.style.display = isLight ? 'block' : 'none';
+    localStorage.setItem('transbot-theme', isLight ? 'light' : 'dark');
+  });
+}
+</script>
+</body>
+</html>

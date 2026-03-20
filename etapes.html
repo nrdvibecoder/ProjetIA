@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TransBot — Creation</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#04080f;--s:#0d1525;--s2:#111e33;--a:#0ea5e9;--a2:#f97316;--g:#10b981;--p:#8b5cf6;--t:#e2eaff;--t2:#7889a8;--t3:#3d4f6e;--b:rgba(14,165,233,0.12);--b2:rgba(14,165,233,0.25)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+.bg-grid{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(14,165,233,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,0.03) 1px,transparent 1px);background-size:48px 48px;animation:gd 30s linear infinite;pointer-events:none}
+@keyframes gd{to{background-position:48px 48px}}
+.orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0}
+.o1{width:500px;height:500px;background:rgba(14,165,233,0.07);top:-150px;right:-100px}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;background:rgba(4,8,15,0.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--b)}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--t);text-decoration:none}
+.logo span{color:var(--a)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{font-size:12px;color:var(--t2);text-decoration:none;font-family:'JetBrains Mono',monospace;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--a)}
+.badge{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--g);border:1px solid rgba(16,185,129,0.3);padding:4px 12px;border-radius:20px;display:flex;align-items:center;gap:6px}
+.badge::before{content:'';width:6px;height:6px;background:var(--g);border-radius:50%;animation:pl 2s ease-in-out infinite}
+@keyframes pl{0%,100%{opacity:1}50%{opacity:.3}}
+.page-header{position:relative;z-index:1;padding:120px 48px 80px;max-width:1200px;margin:0 auto}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--a2);letter-spacing:3px;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px;opacity:0;animation:fu .8s ease .2s forwards}
+.eyebrow::after{content:'';flex:0 0 40px;height:1px;background:var(--a2);opacity:.4}
+.page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,7vw,80px);line-height:1;letter-spacing:.5px;margin-bottom:16px;opacity:0;animation:fu .8s ease .4s forwards}
+.page-title span{color:var(--a)}
+.page-desc{font-size:16px;color:var(--t2);max-width:560px;line-height:1.7;opacity:0;animation:fu .8s ease .6s forwards}
+@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.content{position:relative;z-index:1;padding:0 48px 100px;max-width:1200px;margin:0 auto}
+.steps{display:flex;flex-direction:column;gap:2px}
+.step{display:grid;grid-template-columns:80px 1fr;gap:32px;align-items:start;padding:36px;background:var(--s);border:1px solid var(--b);position:relative;overflow:hidden;transition:all .3s;cursor:default}
+.step:first-child{border-radius:16px 16px 0 0}
+.step:last-child{border-radius:0 0 16px 16px}
+.step::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--a);opacity:0;transition:opacity .3s}
+.step:hover{background:var(--s2);border-color:var(--b2)}
+.step:hover::before{opacity:1}
+.step-n{font-family:'Bebas Neue',sans-serif;font-size:56px;color:var(--t3);line-height:1;transition:color .3s}
+.step:hover .step-n{color:var(--a)}
+.step-title{font-size:20px;font-weight:700;color:var(--t);margin-bottom:10px}
+.step-desc{font-size:14px;color:var(--t2);line-height:1.75;margin-bottom:16px}
+.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 10px;border-radius:5px;border:1px solid}
+.tb{color:var(--a);border-color:rgba(14,165,233,.3);background:rgba(14,165,233,.05)}
+.to{color:var(--a2);border-color:rgba(249,115,22,.3);background:rgba(249,115,22,.05)}
+.tg{color:var(--g);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.05)}
+.tp{color:var(--p);border-color:rgba(139,92,246,.3);background:rgba(139,92,246,.05)}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.rv.vis{opacity:1;transform:translateY(0)}
+.back-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;background:var(--s);border:1px solid var(--b2);color:var(--t);transition:all .2s;margin-bottom:48px}
+.back-btn:hover{background:var(--s2);border-color:var(--a)}
+footer{position:relative;z-index:1;border-top:1px solid var(--b);padding:40px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+@media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}.page-header,.content{padding-left:20px;padding-right:20px}.step{grid-template-columns:1fr;gap:8px}}
+
+body.light{--bg:#f8fafc;--s:#ffffff;--s2:#f1f5f9;--t:#0f172a;--t2:#475569;--t3:#94a3b8;--b:rgba(14,165,233,0.15);--b2:rgba(14,165,233,0.35)}
+body{transition:background .3s,color .3s}
+.bg-grid-light{background-image:linear-gradient(rgba(14,165,233,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,0.07) 1px,transparent 1px)}
+body.light nav{background:rgba(248,250,252,0.92)!important;border-bottom:1px solid rgba(14,165,233,0.2)!important}
+.nav-right{display:flex;align-items:center;gap:12px}
+.theme-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--b2);background:var(--s2);color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.theme-btn:hover{background:var(--a);color:#fff;border-color:var(--a)}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="orb o1"></div>
+
+<nav>
+  <a href="index.html" class="logo">Trans<span>Bot</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="etapes.html" class="active">Creation</a></li>
+    <li><a href="intents.html">Intents</a></li>
+    <li><a href="captures.html">Captures</a></li>
+    <li><a href="chatbot.html">Chatbot</a></li>
+    <li><a href="apropos.html">A propos</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-btn" id="themeBtn" title="Mode clair / sombre">
+      <svg id="iconSun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg id="iconMoon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <div class="badge">Online</div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="eyebrow">Processus de creation</div>
+  <h1 class="page-title">Comment le chatbot<br><span>a ete construit</span></h1>
+  <p class="page-desc">Les 8 etapes suivies pour concevoir, configurer et deployer TransBot sur Dialogflow et le web.</p>
+</div>
+
+<div class="content">
+  <a href="index.html" class="back-btn rv">← Retour a l'accueil</a>
+
+  <div class="steps">
+    <div class="step rv">
+      <div class="step-n">01</div>
+      <div>
+        <div class="step-title">Creation de l'agent Dialogflow</div>
+        <div class="step-desc">Creation d'un agent nomme TransBot sur la plateforme Dialogflow de Google, accessible a l'adresse dialogflow.cloud.google.com. L'agent est configure en langue francaise avec le fuseau horaire Africa/Algiers. Il constitue le cerveau du chatbot et gere l'ensemble des interactions avec les utilisateurs.</div>
+        <span class="tag tb">dialogflow.cloud.google.com</span>
+      </div>
+    </div>
+
+    <div class="step rv">
+      <div class="step-n">02</div>
+      <div>
+        <div class="step-title">Architecture des intents</div>
+        <div class="step-desc">Definition de 56 intentions regroupees en 14 categories thematiques couvrant tous les aspects de l'IA dans le transport : vehicules autonomes, gestion du trafic, securite routiere, logistique, aviation, ferroviaire, environnement, ethique et impact social. Chaque intent a un sujet unique avec des phrases d'entrainement distinctes pour garantir zero confusion.</div>
+        <span class="tag to">56 intents — 14 groupes thematiques</span>
+      </div>
+    </div>
+
+    <div class="step rv">
+      <div class="step-n">03</div>
+      <div>
+        <div class="step-title">Saisie des phrases d'entrainement</div>
+        <div class="step-desc">Pour chaque intent, saisie de 10 a 20 phrases d'entrainement variees et specifiques. Ces phrases apprennent a Dialogflow a reconnaitre les differentes formulations possibles d'une meme question. Un principe fondamental a ete respecte : chaque phrase est unique a son intent et n'apparait dans aucun autre, garantissant une precision maximale de reconnaissance. Plus de 600 phrases au total.</div>
+        <span class="tag tg">600+ training phrases uniques</span>
+      </div>
+    </div>
+
+    <div class="step rv">
+      <div class="step-n">04</div>
+      <div>
+        <div class="step-title">Reponses multiples et precises</div>
+        <div class="step-desc">Chaque intent dispose de deux reponses distinctes que Dialogflow selectionne aleatoirement a chaque declenchement, evitant ainsi la repetition lors de conversations prolongees. Les reponses contiennent des donnees chiffrees reelles, des noms d'entreprises verifiables et des exemples concrets pour maximiser la qualite et la credibilite de l'information fournie.</div>
+        <span class="tag tp">2 reponses par intent — 112 reponses au total</span>
+      </div>
+    </div>
+
+    <div class="step rv">
+      <div class="step-n">05</div>
+      <div>
+        <div class="step-title">Suggestion chips et navigation guidee</div>
+        <div class="step-desc">Configuration des suggestion chips pour chaque intent. Ces boutons cliquables apparaissent sous chaque reponse et permettent a l'utilisateur de naviguer vers les sujets connexes sans avoir a taper. Chaque chip est lie a un intent specifique via une training phrase exacte, garantissant que le clic declenche toujours le bon intent avec une precision de 100%.</div>
+        <span class="tag tb">Navigation guidee — precision 100%</span>
+      </div>
+    </div>
+
+    <div class="step rv">
+      <div class="step-n">06</div>
+      <div>
+        <div class="step-title">Entities et contextes de conversation</div>
+        <div class="step-desc">Creation de 3 entites personnalisees pour ameliorer la reconnaissance des mots-cles : @entreprise-transport (Tesla, Waymo, Amazon, Baidu), @domaine-transport (vehicule-autonome, trafic, logistique) et @niveau-autonomie (niveau 0 a 5). Configuration de 5 contextes de conversation permettant au chatbot de maintenir le fil des echanges entre questions liees.</div>
+        <span class="tag to">3 entities — 5 contextes</span>
+      </div>
+    </div>
+
+    <div class="step rv">
+      <div class="step-n">07</div>
+      <div>
+        <div class="step-title">Tests et validation dans le simulateur</div>
+        <div class="step-desc">Test systematique de chaque intent dans le simulateur integre de Dialogflow "Try it now". Verification que chaque question declenche le bon intent et que les reponses sont correctes, pertinentes et bien formulees. Correction des conflits potentiels entre intents ayant des formulations trop similaires. Validation du fallback intent pour les questions non reconnues.</div>
+        <span class="tag tg">Simulateur integre Dialogflow</span>
+      </div>
+    </div>
+
+    <div class="step rv">
+      <div class="step-n">08</div>
+      <div>
+        <div class="step-title">Deploiement web via Netlify</div>
+        <div class="step-desc">Activation du Web Demo Dialogflow dans la section Integrations pour generer un lien URL public du chatbot. Integration de ce lien dans ce site web via une balise iframe. Deploiement du site complet sur Netlify pour un acces public gratuit depuis n'importe quel navigateur et appareil, sans installation requise.</div>
+        <span class="tag tp">Netlify — Acces public gratuit</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px">Trans<span style="color:var(--a)">Bot</span></div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);text-align:right;line-height:1.9">L1 Informatique · Dr. S. Amarouche · Domaine : Transport</div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(() => e.target.classList.add('vis'), i*80); });
+}, {threshold: 0.08});
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+const _btn = document.getElementById('themeBtn');
+const _sun = document.getElementById('iconSun');
+const _moon = document.getElementById('iconMoon');
+if(_btn) {
+  const _saved = localStorage.getItem('transbot-theme');
+  if(_saved === 'light') {
+    document.body.classList.add('light');
+    if(_sun) _sun.style.display = 'none';
+    if(_moon) _moon.style.display = 'block';
+  }
+  _btn.addEventListener('click', () => {
+    document.body.classList.toggle('light');
+    const isLight = document.body.classList.contains('light');
+    if(_sun) _sun.style.display = isLight ? 'none' : 'block';
+    if(_moon) _moon.style.display = isLight ? 'block' : 'none';
+    localStorage.setItem('transbot-theme', isLight ? 'light' : 'dark');
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TransBot — A propos</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#04080f;--s:#0d1525;--s2:#111e33;--a:#0ea5e9;--a2:#f97316;--g:#10b981;--p:#8b5cf6;--t:#e2eaff;--t2:#7889a8;--t3:#3d4f6e;--b:rgba(14,165,233,0.12);--b2:rgba(14,165,233,0.25)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+.bg-grid{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(14,165,233,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,0.03) 1px,transparent 1px);background-size:48px 48px;animation:gd 30s linear infinite;pointer-events:none}
+@keyframes gd{to{background-position:48px 48px}}
+.orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0}
+.o1{width:500px;height:500px;background:rgba(14,165,233,0.07);top:-150px;right:-100px}
+.o2{width:350px;height:350px;background:rgba(139,92,246,0.05);bottom:100px;left:-80px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;background:rgba(4,8,15,0.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--b)}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--t);text-decoration:none}
+.logo span{color:var(--a)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{font-size:12px;color:var(--t2);text-decoration:none;font-family:'JetBrains Mono',monospace;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--a)}
+.badge{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--g);border:1px solid rgba(16,185,129,0.3);padding:4px 12px;border-radius:20px;display:flex;align-items:center;gap:6px}
+.badge::before{content:'';width:6px;height:6px;background:var(--g);border-radius:50%;animation:pl 2s ease-in-out infinite}
+@keyframes pl{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.page-header{position:relative;z-index:1;padding:120px 48px 80px;max-width:1200px;margin:0 auto;text-align:center}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--a2);letter-spacing:3px;text-transform:uppercase;display:inline-flex;align-items:center;gap:12px;margin-bottom:20px;opacity:0;animation:fu .8s ease .2s forwards}
+.page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,7vw,80px);line-height:1;letter-spacing:.5px;margin-bottom:16px;opacity:0;animation:fu .8s ease .4s forwards}
+.page-title span{color:var(--a)}
+.page-desc{font-size:16px;color:var(--t2);max-width:560px;line-height:1.7;margin:0 auto;opacity:0;animation:fu .8s ease .6s forwards}
+
+.content{position:relative;z-index:1;padding:0 48px 100px;max-width:1200px;margin:0 auto}
+.back-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;background:var(--s);border:1px solid var(--b2);color:var(--t);transition:all .2s;margin-bottom:60px}
+.back-btn:hover{background:var(--s2);border-color:var(--a)}
+
+/* PROJECT INFO */
+.project-info{background:var(--s);border:1px solid var(--b);border-radius:20px;padding:40px;margin-bottom:60px;position:relative;overflow:hidden}
+.project-info::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--a),var(--p),var(--a2))}
+.project-info-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:24px}
+.info-item{}
+.info-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.info-value{font-size:14px;color:var(--t);font-weight:500}
+
+/* TEAM */
+.team-title{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:.5px;margin-bottom:8px}
+.team-title span{color:var(--a)}
+.team-sub{font-size:14px;color:var(--t2);margin-bottom:40px}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+
+.member-card{background:var(--s);border:1px solid var(--b);border-radius:16px;padding:28px;display:flex;align-items:center;gap:20px;transition:all .3s;position:relative;overflow:hidden}
+.member-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--a);opacity:0;transition:opacity .3s}
+.member-card:hover{background:var(--s2);border-color:var(--b2);transform:translateY(-2px)}
+.member-card:hover::before{opacity:1}
+
+/* Special card for chatbot/site author */
+.member-card.author{border-color:rgba(14,165,233,.3)}
+.member-card.author::before{opacity:1;background:linear-gradient(to bottom,var(--a),var(--p))}
+
+.member-avatar{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:20px;font-weight:700;flex-shrink:0;letter-spacing:1px}
+.avatar-blue{background:rgba(14,165,233,.15);color:var(--a);border:1px solid rgba(14,165,233,.3)}
+.avatar-purple{background:rgba(139,92,246,.15);color:var(--p);border:1px solid rgba(139,92,246,.3)}
+.avatar-green{background:rgba(16,185,129,.15);color:var(--g);border:1px solid rgba(16,185,129,.3)}
+.avatar-orange{background:rgba(249,115,22,.15);color:var(--a2);border:1px solid rgba(249,115,22,.3)}
+.avatar-teal{background:rgba(34,211,238,.15);color:#22d3ee;border:1px solid rgba(34,211,238,.3)}
+
+.member-info{}
+.member-name{font-size:16px;font-weight:700;color:var(--t);margin-bottom:4px}
+.member-group{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t3);margin-bottom:8px}
+.member-role{display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:4px 10px;border-radius:20px;font-family:'JetBrains Mono',monospace}
+.role-author{background:rgba(14,165,233,.1);color:var(--a);border:1px solid rgba(14,165,233,.25)}
+.role-member{background:rgba(139,92,246,.1);color:var(--p);border:1px solid rgba(139,92,246,.25)}
+
+/* MODULE INFO */
+.module-box{background:var(--s);border:1px solid var(--b);border-radius:16px;padding:32px;margin-top:60px;text-align:center}
+.module-box-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.5px;margin-bottom:8px}
+.module-box-title span{color:var(--a)}
+.module-box-desc{font-size:14px;color:var(--t2);line-height:1.7}
+
+.rv{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
+.rv.vis{opacity:1;transform:translateY(0)}
+footer{position:relative;z-index:1;border-top:1px solid var(--b);padding:40px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+@media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}.page-header,.content{padding-left:20px;padding-right:20px}.team-grid{grid-template-columns:1fr}.project-info-grid{grid-template-columns:1fr 1fr}}
+
+body.light{--bg:#f8fafc;--s:#ffffff;--s2:#f1f5f9;--t:#0f172a;--t2:#475569;--t3:#94a3b8;--b:rgba(14,165,233,0.15);--b2:rgba(14,165,233,0.35)}
+body{transition:background .3s,color .3s}
+.bg-grid-light{background-image:linear-gradient(rgba(14,165,233,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,0.07) 1px,transparent 1px)}
+body.light nav{background:rgba(248,250,252,0.92)!important;border-bottom:1px solid rgba(14,165,233,0.2)!important}
+.nav-right{display:flex;align-items:center;gap:12px}
+.theme-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--b2);background:var(--s2);color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.theme-btn:hover{background:var(--a);color:#fff;border-color:var(--a)}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+
+<nav>
+  <a href="index.html" class="logo">Trans<span>Bot</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="etapes.html">Creation</a></li>
+    <li><a href="intents.html">Intents</a></li>
+    <li><a href="captures.html">Captures</a></li>
+    <li><a href="chatbot.html">Chatbot</a></li>
+    <li><a href="apropos.html" class="active">A propos</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-btn" id="themeBtn" title="Mode clair / sombre">
+      <svg id="iconSun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg id="iconMoon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <div class="badge">Online</div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="eyebrow">L'equipe du projet</div>
+  <h1 class="page-title">A <span>propos</span></h1>
+  <p class="page-desc">Presentation du groupe ayant realise ce projet dans le cadre du cours d'Introduction a l'Intelligence Artificielle.</p>
+</div>
+
+<div class="content">
+  <a href="index.html" class="back-btn rv">← Retour a l'accueil</a>
+
+  <!-- PROJECT INFO -->
+  <div class="project-info rv">
+    <div class="project-info-grid">
+      <div class="info-item">
+        <div class="info-label">Unite d'enseignement</div>
+        <div class="info-value">Introduction a l'Intelligence Artificielle</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Niveau</div>
+        <div class="info-value">L1 Informatique</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Chargee du module</div>
+        <div class="info-value">Dr. S. Amarouche</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Groupe</div>
+        <div class="info-value">Groupe 2</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Domaine du projet</div>
+        <div class="info-value">Transport</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Technologie utilisee</div>
+        <div class="info-value">Dialogflow — Google Cloud</div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="rv">
+    <div class="team-title">Les <span>membres</span> du groupe</div>
+    <div class="team-sub">5 etudiants — Groupe 2</div>
+  </div>
+
+  <div class="team-grid">
+
+    <div class="member-card author rv">
+      <div class="member-avatar avatar-blue">BN</div>
+      <div class="member-info">
+        <div class="member-name">BENSADI Noureddine</div>
+        <div class="member-group">Groupe 2 — Sec 1 L1 Informatique</div>
+        <span class="member-role role-author">Membre du groupe</span>
+      </div>
+    </div>
+
+    <div class="member-card rv">
+      <div class="member-avatar avatar-purple">KA</div>
+      <div class="member-info">
+        <div class="member-name">KHRIS Agnès</div>
+        <div class="member-group">Groupe 2 — Sec 1 L1 Informatique</div>
+        <span class="member-role role-member">Membre du groupe</span>
+      </div>
+    </div>
+
+    <div class="member-card rv">
+      <div class="member-avatar avatar-green">AL</div>
+      <div class="member-info">
+        <div class="member-name">ALIANE Lydia</div>
+        <div class="member-group">Groupe 2 — Sec 1 L1 Informatique</div>
+        <span class="member-role role-member">Membre du groupe</span>
+      </div>
+    </div>
+
+    <div class="member-card rv">
+      <div class="member-avatar avatar-orange">AF</div>
+      <div class="member-info">
+        <div class="member-name">AMMAR-KHODJA Farouk</div>
+        <div class="member-group">Groupe 2 — Sec 1 L1 Informatique</div>
+        <span class="member-role role-member">Membre du groupe</span>
+      </div>
+    </div>
+
+    <div class="member-card rv">
+      <div class="member-avatar avatar-teal">BR</div>
+      <div class="member-info">
+        <div class="member-name">BOUDALI Rayane</div>
+        <div class="member-group">Groupe 2 — Sec 1 L1 Informatique</div>
+        <span class="member-role role-member">Membre du groupe</span>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="module-box rv">
+    <div class="module-box-title">TransBot — <span>Projet IA</span></div>
+    <div class="module-box-desc">
+      Ce projet a ete realise dans le cadre de l'unite d'enseignement Introduction a l'Intelligence Artificielle, L1 Informatique, Section 1.<br>
+      Il consiste en la creation d'un chatbot intelligent sur le domaine du Transport en utilisant la plateforme Dialogflow de Google,<br>
+      integre dans un site web dedie et deploye publiquement sur Netlify.
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px">Trans<span style="color:var(--a)">Bot</span></div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);text-align:right;line-height:1.9">
+    L1 Informatique · Groupe 2 · Dr. S. Amarouche
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(() => e.target.classList.add('vis'), i*80); });
+}, {threshold: 0.08});
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+const _btn = document.getElementById('themeBtn');
+const _sun = document.getElementById('iconSun');
+const _moon = document.getElementById('iconMoon');
+if(_btn) {
+  const _saved = localStorage.getItem('transbot-theme');
+  if(_saved === 'light') {
+    document.body.classList.add('light');
+    if(_sun) _sun.style.display = 'none';
+    if(_moon) _moon.style.display = 'block';
+  }
+  _btn.addEventListener('click', () => {
+    document.body.classList.toggle('light');
+    const isLight = document.body.classList.contains('light');
+    if(_sun) _sun.style.display = isLight ? 'none' : 'block';
+    if(_moon) _moon.style.display = isLight ? 'block' : 'none';
+    localStorage.setItem('transbot-theme', isLight ? 'light' : 'dark');
+  });
+}
+</script>
+</body>
+</html>
