@@ -3,6 +3,7 @@
 <head>
   <link rel="icon" type="image/png" href="favicon.png">
 <meta charset="UTF-8">
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TransBot — Chatbot</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -117,13 +118,6 @@ body.light nav{background:rgba(248,250,252,0.92)!important;border-bottom:1px sol
       <div class="frame-live">LIVE</div>
     </div>
 
-    <iframe
-      class="chatbot-iframe"
-      src="https://bot.dialogflow.com/d6a3036a-15b6-466c-b1d7-6dbc6d22cc7a"
-      allow="microphone"
-      title="TransBot">
-    </iframe>
-
     <div class="frame-footer">
       <span>Propulse par Dialogflow · Google Cloud · NLP</span>
       <span>Projet IA — L1 · Dr. S. Amarouche</span>
@@ -144,7 +138,12 @@ body.light nav{background:rgba(248,250,252,0.92)!important;border-bottom:1px sol
   <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px">Trans<span style="color:var(--a)">Bot</span></div>
   <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);text-align:right;line-height:1.9">L1 Informatique · Dr. S. Amarouche · Technologie : Dialogflow</div>
 </footer>
-
+<df-messenger
+  intent="WELCOME"
+  chat-title="TransBot"
+  agent-id="d6a3036a-15b6-466c-b1d7-6dbc6d22cc7a"
+  language-code="fr">
+</df-messenger>
 </body>
 </html>
 <script>
