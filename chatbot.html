@@ -6,7 +6,6 @@
 <title>TransBot — Chatbot</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
 <style>
 :root{--bg:#04080f;--s:#0d1525;--s2:#111e33;--a:#0ea5e9;--a2:#f97316;--g:#10b981;--p:#8b5cf6;--t:#e2eaff;--t2:#7889a8;--t3:#3d4f6e;--b:rgba(14,165,233,0.12);--b2:rgba(14,165,233,0.25)}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -65,43 +64,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
   justify-content:center;
 }
 
-/* Force Dialogflow Messenger to fill the container */
-df-messenger{
-  width:100%;
-  height:100%;
-  --df-messenger-bot-message:#0d1525;
-  --df-messenger-button-titlebar-color:#0ea5e9;
-  --df-messenger-button-titlebar-font-color:#ffffff;
-  --df-messenger-chat-background-color:#04080f;
-  --df-messenger-font-color:#e2eaff;
-  --df-messenger-send-icon:#0ea5e9;
-  --df-messenger-user-message:#0ea5e9;
-  --df-messenger-input-background:#0d1525;
-  --df-messenger-input-font-color:#e2eaff;
-  --df-messenger-minimized-icon-color:#ffffff;
-  position:absolute;
-  inset:0;
-}
-
-/* Override default messenger styles to make it fill the frame */
-df-messenger::part(chat-wrapper){
-  height:100%!important;
-  max-height:100%!important;
-  border-radius:0!important;
-  box-shadow:none!important;
-  position:absolute!important;
-  inset:0!important;
-  width:100%!important;
-}
-
-df-messenger::part(header){
-  display:none!important;
-}
-
-df-messenger::part(chat-button){
-  display:none!important;
-}
-
 /* Hints */
 .hints{margin-top:28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
 .hint{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:14px 16px;transition:all .2s}
@@ -115,6 +77,16 @@ footer{position:relative;z-index:1;border-top:1px solid var(--b);padding:40px 48
 @media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}.page-header{padding:100px 20px 40px}.content{padding:0 20px 60px}.messenger-container{height:460px}}
 </style>
 </head>
+  <script type="text/javascript">
+    (function(d, m){
+        var kommunicateSettings =
+            {"appId":"efb82e4b7d43609a8a79be62b8626499","popupWidget":true,"automaticChatOpenOnNavigation":true};
+        var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
+        s.src = "https://widget.kommunicate.io/kommunicate-widget-3.0.min.js";
+        var h = document.getElementsByTagName("head")[0]; h.appendChild(s);
+        window.kommunicate = m; m._globals = kommunicateSettings;
+    })(document, window.kommunicate || {});
+</script>
 <body>
 <div class="bg-grid"></div>
 <div class="orb o1"></div>
