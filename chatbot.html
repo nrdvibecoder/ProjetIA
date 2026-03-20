@@ -30,7 +30,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .badge::before{content:'';width:6px;height:6px;background:var(--g);border-radius:50%;animation:pl 2s ease-in-out infinite}
 @keyframes pl{0%,100%{opacity:1}50%{opacity:.3}}
 @keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-
 .page-header{position:relative;z-index:1;padding:120px 48px 60px;max-width:1200px;margin:0 auto;text-align:center}
 .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--a2);letter-spacing:3px;text-transform:uppercase;display:inline-flex;align-items:center;gap:12px;margin-bottom:20px;opacity:0;animation:fu .8s ease .2s forwards}
 .page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,7vw,80px);line-height:1;letter-spacing:.5px;margin-bottom:16px;opacity:0;animation:fu .8s ease .4s forwards}
@@ -38,33 +37,60 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .page-desc{font-size:16px;color:var(--t2);max-width:560px;line-height:1.7;margin:0 auto 48px;opacity:0;animation:fu .8s ease .6s forwards}
 .topics{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;opacity:0;animation:fu .8s ease .8s forwards}
 .topic{font-family:'JetBrains Mono',monospace;font-size:11px;padding:6px 14px;border-radius:20px;background:rgba(14,165,233,.06);border:1px solid rgba(14,165,233,.2);color:var(--a)}
-
 .content{position:relative;z-index:1;padding:0 48px 100px;max-width:900px;margin:0 auto}
 .back-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;background:var(--s);border:1px solid var(--b2);color:var(--t);transition:all .2s;margin-bottom:32px}
 .back-btn:hover{background:var(--s2);border-color:var(--a)}
 
 /* FRAME */
-.chat-frame{background:var(--s);border:1px solid var(--b);border-radius:20px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.5)}
-.frame-bar{background:var(--s2);border-bottom:1px solid var(--b);padding:14px 20px;display:flex;align-items:center;gap:12px}
+.chat-frame{background:var(--s);border:1px solid var(--b);border-radius:20px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.5);position:relative}
+.frame-bar{background:var(--s2);border-bottom:1px solid var(--b);padding:14px 20px;display:flex;align-items:center;gap:12px;position:relative;z-index:10}
 .frame-dots{display:flex;gap:6px}
 .frame-dots span{width:12px;height:12px;border-radius:50%}
 .frame-title{flex:1;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t3)}
 .frame-live{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--g);display:flex;align-items:center;gap:5px}
 .frame-live::before{content:'';width:6px;height:6px;background:var(--g);border-radius:50%;animation:pl 1.5s ease-in-out infinite}
-.frame-footer{padding:14px 22px;border-top:1px solid var(--b);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);display:flex;align-items:center;justify-content:space-between}
 
-/* MESSENGER INSIDE FRAME */
-.messenger-container{
+/* CHAT AREA — where kommunicate will live */
+.chat-area{
+  height:560px;
   position:relative;
-  height:580px;
-  background:var(--s);
   overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  background:var(--s);
 }
 
-/* Hints */
+/* Move kommunicate widget inside frame */
+#kommunicate-widget-iframe-wrapper,
+.kommunicate-iframe-popup-wrapper,
+#km-chat-widget-wrapper {
+  position:absolute !important;
+  bottom:0 !important;
+  right:0 !important;
+  left:0 !important;
+  top:0 !important;
+  width:100% !important;
+  height:100% !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  z-index:5 !important;
+}
+
+#kommunicate-widget-iframe-wrapper iframe,
+.kommunicate-iframe-popup-wrapper iframe {
+  width:100% !important;
+  height:100% !important;
+  border-radius:0 !important;
+}
+
+/* Hide the launcher button */
+#kommunicate-widget-launcher-iframe-div,
+.km-launcher-wrapper {
+  display:none !important;
+}
+
+.frame-footer{padding:14px 22px;border-top:1px solid var(--b);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);display:flex;align-items:center;justify-content:space-between;position:relative;z-index:10}
+
 .hints{margin-top:28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
 .hint{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:14px 16px;transition:all .2s}
 .hint:hover{border-color:var(--b2);background:var(--s2)}
@@ -74,19 +100,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .rv{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
 .rv.vis{opacity:1;transform:translateY(0)}
 footer{position:relative;z-index:1;border-top:1px solid var(--b);padding:40px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
-@media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}.page-header{padding:100px 20px 40px}.content{padding:0 20px 60px}.messenger-container{height:460px}}
+@media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}.page-header{padding:100px 20px 40px}.content{padding:0 20px 60px}.chat-area{height:460px}}
 </style>
 </head>
-  <script type="text/javascript">
-    (function(d, m){
-        var kommunicateSettings =
-            {"appId":"efb82e4b7d43609a8a79be62b8626499","popupWidget":true,"automaticChatOpenOnNavigation":true};
-        var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
-        s.src = "https://widget.kommunicate.io/kommunicate-widget-3.0.min.js";
-        var h = document.getElementsByTagName("head")[0]; h.appendChild(s);
-        window.kommunicate = m; m._globals = kommunicateSettings;
-    })(document, window.kommunicate || {});
-</script>
 <body>
 <div class="bg-grid"></div>
 <div class="orb o1"></div>
@@ -140,14 +156,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--b);padding:40px 48
       <div class="frame-live">LIVE</div>
     </div>
 
-    <div class="messenger-container">
-      <df-messenger
-        intent="WELCOME"
-        chat-title="TransBot"
-        agent-id="d6a3036a-15b6-466c-b1d7-6dbc6d22cc7a"
-        language-code="fr">
-      </df-messenger>
-    </div>
+    <div class="chat-area" id="chatArea"></div>
 
     <div class="frame-footer">
       <span>Propulse par Dialogflow · Google Cloud · NLP</span>
@@ -191,21 +200,50 @@ if(_btn){
   });
 }
 
-// Auto-open messenger inside frame on page load
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    const messenger = document.querySelector('df-messenger');
-    if(messenger){
-      try {
-        messenger.renderCustomText('Bonjour');
-      } catch(e){}
-      try {
-        const btn = messenger.shadowRoot && messenger.shadowRoot.querySelector('#widgetIcon');
-        if(btn) btn.click();
-      } catch(e){}
-    }
-  }, 1500);
-});
+// Load Kommunicate and move it inside the frame
+(function(d, m){
+  var kommunicateSettings = {
+    "appId":"efb82e4b7d43609a8a79be62b8626499",
+    "popupWidget":true,
+    "automaticChatOpenOnNavigation":true
+  };
+  var s = document.createElement("script");
+  s.type = "text/javascript";
+  s.async = true;
+  s.src = "https://widget.kommunicate.io/kommunicate-widget-3.0.min.js";
+  s.onload = function(){
+    // After widget loads, move it inside the frame
+    setTimeout(function(){
+      var chatArea = document.getElementById('chatArea');
+      var widget = document.getElementById('kommunicate-widget-iframe-wrapper') ||
+                   document.querySelector('.kommunicate-iframe-popup-wrapper') ||
+                   document.querySelector('#km-chat-widget-wrapper') ||
+                   document.querySelector('[id*="kommunicate"]');
+      if(widget && chatArea){
+        chatArea.appendChild(widget);
+        widget.style.position = 'absolute';
+        widget.style.inset = '0';
+        widget.style.width = '100%';
+        widget.style.height = '100%';
+        widget.style.maxWidth = '100%';
+        widget.style.maxHeight = '100%';
+        widget.style.borderRadius = '0';
+        widget.style.boxShadow = 'none';
+      }
+      // Auto open chat
+      if(window.kommunicate && window.kommunicate.openConversation){
+        window.kommunicate.openConversation();
+      }
+      if(typeof kommunicate !== 'undefined'){
+        try{ kommunicate('openConversation'); } catch(e){}
+      }
+    }, 2000);
+  };
+  var h = document.getElementsByTagName("head")[0];
+  h.appendChild(s);
+  window.kommunicate = m;
+  m._globals = kommunicateSettings;
+})(document, window.kommunicate || {});
 </script>
 </body>
 </html>
