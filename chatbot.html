@@ -13,8 +13,6 @@ body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;overfl
 body.light{--bg:#f8fafc;--s:#ffffff;--s2:#f1f5f9;--t:#0f172a;--t2:#475569;--t3:#94a3b8;--b:rgba(14,165,233,0.15);--b2:rgba(14,165,233,0.35)}
 body.light nav{background:rgba(248,250,252,0.92)!important;border-bottom-color:rgba(14,165,233,0.2)!important}
 body.light .bg-grid{background-image:linear-gradient(rgba(14,165,233,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,0.07) 1px,transparent 1px)!important}
-body.light .chat-frame{background:#fff;border-color:rgba(14,165,233,.2)}
-body.light .frame-bar{background:#f1f5f9;border-bottom-color:rgba(14,165,233,.15)}
 .bg-grid{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(14,165,233,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,0.03) 1px,transparent 1px);background-size:48px 48px;animation:gd 30s linear infinite;pointer-events:none}
 @keyframes gd{to{background-position:48px 48px}}
 .orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0}
@@ -33,7 +31,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .badge::before{content:'';width:6px;height:6px;background:var(--g);border-radius:50%;animation:pl 2s ease-in-out infinite}
 @keyframes pl{0%,100%{opacity:1}50%{opacity:.3}}
 @keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-
 .page-header{position:relative;z-index:1;padding:120px 48px 60px;max-width:1200px;margin:0 auto;text-align:center}
 .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--a2);letter-spacing:3px;text-transform:uppercase;display:inline-flex;align-items:center;gap:12px;margin-bottom:20px;opacity:0;animation:fu .8s ease .2s forwards}
 .page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,7vw,80px);line-height:1;letter-spacing:.5px;margin-bottom:16px;opacity:0;animation:fu .8s ease .4s forwards}
@@ -41,46 +38,37 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .page-desc{font-size:16px;color:var(--t2);max-width:560px;line-height:1.7;margin:0 auto 48px;opacity:0;animation:fu .8s ease .6s forwards}
 .topics{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;opacity:0;animation:fu .8s ease .8s forwards}
 .topic{font-family:'JetBrains Mono',monospace;font-size:11px;padding:6px 14px;border-radius:20px;background:rgba(14,165,233,.06);border:1px solid rgba(14,165,233,.2);color:var(--a)}
-
 .content{position:relative;z-index:1;padding:0 48px 100px;max-width:900px;margin:0 auto}
 .back-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;background:var(--s);border:1px solid var(--b2);color:var(--t);transition:all .2s;margin-bottom:32px}
 .back-btn:hover{background:var(--s2);border-color:var(--a)}
-
-/* FRAME */
-.chat-frame{background:var(--s);border:1px solid var(--b);border-radius:20px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.5);}
+.chat-frame{background:var(--s);border:1px solid var(--b);border-radius:20px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.5)}
 .frame-bar{background:var(--s2);border-bottom:1px solid var(--b);padding:14px 20px;display:flex;align-items:center;gap:12px}
 .frame-dots{display:flex;gap:6px}
 .frame-dots span{width:12px;height:12px;border-radius:50%}
 .frame-title{flex:1;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t3)}
 .frame-live{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--g);display:flex;align-items:center;gap:5px}
 .frame-live::before{content:'';width:6px;height:6px;background:var(--g);border-radius:50%;animation:pl 1.5s ease-in-out infinite}
-
-/* CHAT BODY */
-.frame-body{padding:60px 40px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;text-align:center;min-height:400px}
-.frame-icon{width:80px;height:80px;border-radius:20px;background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.25);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--a);letter-spacing:1px}
-.frame-body-title{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:.5px;color:var(--t)}
+.frame-body{padding:64px 40px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;text-align:center}
+.frame-icon{width:88px;height:88px;border-radius:22px;background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.25);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--a);letter-spacing:1px;margin-bottom:4px}
+.frame-body-title{font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:.5px;color:var(--t);line-height:1}
 .frame-body-title span{color:var(--a)}
-.frame-body-desc{font-size:15px;color:var(--t2);max-width:440px;line-height:1.7}
-.open-btn{display:inline-flex;align-items:center;gap:12px;padding:18px 40px;border-radius:14px;background:var(--a);color:#fff;font-size:16px;font-weight:700;text-decoration:none;transition:all .3s;font-family:'DM Sans',sans-serif;box-shadow:0 8px 32px rgba(14,165,233,.3)}
-.open-btn:hover{background:#0284c7;transform:translateY(-3px);box-shadow:0 16px 48px rgba(14,165,233,.4)}
-.open-btn svg{transition:transform .3s}
-.open-btn:hover svg{transform:translateX(4px)}
+.frame-body-desc{font-size:15px;color:var(--t2);max-width:460px;line-height:1.7}
+.talk-btn{display:inline-flex;align-items:center;gap:12px;padding:20px 48px;border-radius:14px;background:var(--a);color:#fff;font-size:17px;font-weight:700;text-decoration:none;transition:all .3s;font-family:'DM Sans',sans-serif;box-shadow:0 8px 32px rgba(14,165,233,.35);margin-top:8px}
+.talk-btn:hover{background:#0284c7;transform:translateY(-3px);box-shadow:0 20px 48px rgba(14,165,233,.45)}
+.talk-btn svg{transition:transform .3s}
+.talk-btn:hover svg{transform:translateX(4px)}
 .frame-note{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t3);display:flex;align-items:center;gap:8px}
 .frame-note::before{content:'';width:6px;height:6px;background:var(--g);border-radius:50%;animation:pl 2s ease-in-out infinite}
-
 .frame-footer{padding:14px 22px;border-top:1px solid var(--b);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);display:flex;align-items:center;justify-content:space-between}
-
-/* HINTS */
 .hints{margin-top:28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
 .hint{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:14px 16px;transition:all .2s}
 .hint:hover{border-color:var(--b2);background:var(--s2)}
 .hint-q{font-size:12px;color:var(--t);margin-bottom:4px;font-weight:500}
 .hint-label{font-size:10px;color:var(--t3);font-family:'JetBrains Mono',monospace}
-
 .rv{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
 .rv.vis{opacity:1;transform:translateY(0)}
 footer{position:relative;z-index:1;border-top:1px solid var(--b);padding:40px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
-@media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}.page-header{padding:100px 20px 40px}.content{padding:0 20px 60px}.frame-body{padding:40px 24px}}
+@media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}.page-header{padding:100px 20px 40px}.content{padding:0 20px 60px}.frame-body{padding:48px 24px}.talk-btn{padding:16px 32px;font-size:15px}}
 </style>
 </head>
 <body>
@@ -137,13 +125,16 @@ footer{position:relative;z-index:1;border-top:1px solid var(--b);padding:40px 48
       <div class="frame-live">LIVE</div>
     </div>
 
-    <iframe
-      allow="microphone;"
-      width="100%"
-      height="430"
-      style="border:none;display:block;"
-      src="https://console.dialogflow.com/api-client/demo/embedded/d6a3036a-15b6-466c-b1d7-6dbc6d22cc7a">
-    </iframe>
+    <div class="frame-body">
+      <div class="frame-icon">TB</div>
+      <div class="frame-body-title">Bonjour, je suis<br><span>TransBot</span></div>
+      <p class="frame-body-desc">Votre assistant virtuel intelligent specialise dans l'intelligence artificielle appliquee au transport. Posez-moi vos questions sur les vehicules autonomes, la gestion du trafic, la securite routiere et bien plus.</p>
+      <a href="https://bot.dialogflow.com/d6a3036a-15b6-466c-b1d7-6dbc6d22cc7a" target="_blank" class="talk-btn">
+        Parler avec TransBot
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <div class="frame-note">Powered by Dialogflow · Google Cloud · NLP</div>
+    </div>
 
     <div class="frame-footer">
       <span>Propulse par Dialogflow · Google Cloud · NLP</span>
